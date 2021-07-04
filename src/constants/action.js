@@ -1,0 +1,16 @@
+export const DECREASE = "DECREASE"
+export const INCREASE = "INCREASE"
+export const REMOVE = "REMOVE"
+export const ADDTOCART = "ADDTOCART"
+export const CLEAR_CART = "CLEAR_CART"
+export const GET_TOTAL = "GET_TOTAL"
+export const GET_DETAIL = "GET_DETAIL"
+export const MODALSWITCHON = "MODAL_SWITCHON"
+export const MODALSWITCHOFF = "MODAL_SWITCHOFF"
+export const FETCH_DATA = "FETCH_DATA"
+export const USER_SIGNIN_REQUEST = "USER_SIGNIN_REQUEST"
+export const USER_SIGNOUT = "USER_SIGNOUT"
+export const USER_REGISTER = "USER_REGISTER"
+export const LOGOUT = "LOGOUT"
+
+
