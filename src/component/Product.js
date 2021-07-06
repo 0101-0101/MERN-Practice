@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
-  console.log(Product);
+  // console.log(Product);
 
   const dispatch = useDispatch()
 
@@ -62,11 +62,11 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
     fetch('http://localhost:9000/product/list')
       .then(response => response.json())
       .then(product =>{
-        console.log("Pro",product.data);
+        // console.log("Pro",product.data);
         // fetchdata(product.data)
         // let x =product.data
         dispatch( { type:FETCH_DATA ,payload:  product.data })
-        console.log(product.data)
+        // console.log(product.data)
       },(error) => {
         if (error) {
           console.log(error);
@@ -82,12 +82,12 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
  {/* <SingleProduct product={Product} /> */}
 
      
-    <div style={{  "margin-right": 10, "margin-left":15}}>
+    <div>
       <Grid container spacing={2}>
     {Product.map( (pro) =>{
       return (
 
-    <Grid>
+    <Grid key={pro.id}>
     <Card className={classes.root}>
     <CardHeader
       avatar={
@@ -121,8 +121,8 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
       <IconButton aria-label="add to favorites">
         <FavoriteIcon />
       </IconButton>
-      <IconButton>
-      <ShoppingCartIcon  onClick={ ()=> dispatch( { type:ADDTOCART , payload: pro   } ) } />
+      <IconButton onClick={ ()=> dispatch( { type:ADDTOCART , payload: pro   } ) }>
+      <ShoppingCartIcon  />
       </IconButton>
       <IconButton aria-label="share">
         <ShareIcon />

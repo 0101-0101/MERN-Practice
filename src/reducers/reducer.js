@@ -28,6 +28,9 @@ function reducer(state,action) {
     try {  
       const res  =  Axios.post('http://localhost:9000/api/auth/signin/', { username  , password })
       .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data)); })
+      .catch(error => {
+        return error.response.data
+      })
         // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
         // console.log(res);
         // localStorage.setItem('userInfo', JSON.stringify(val.data));

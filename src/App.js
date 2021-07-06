@@ -13,7 +13,7 @@ import CartContainer from './component/Cart/CartContainer'
 
 import thunk from 'redux-thunk';
 import register from './component/register'
-import login from './component/login'
+import Login from './component/login'
 
 
 
@@ -44,9 +44,10 @@ function App() {
 
     <Switch>
       <Route path="/register" component={register}></Route>
-      <Route path="/login" component={login}></Route>
-      <Route path="/" component={Product}></Route>
+      <Route path="/login" component={Login}></Route>
       <Route path='/cart' component={CartContainer}></Route>
+
+      <Route path="/" component={Product}></Route>
     </Switch>
     </Provider>
     </Router>  
