@@ -17,6 +17,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { connect, useDispatch } from "react-redux"
 import { ADDTOCART,FETCH_DATA } from "../constants/action"
+import {link} from 'react-router-dom'
 
 // import {SingleProduct} from './SinglePro's
 // import {Product} from '../data'
@@ -83,8 +84,12 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
      
     <div>
+
       <Grid container spacing={2}>
     {Product.map( (pro) =>{
+      // <img  src={pro.image} alt="image"></img>
+      // console.log("pro",pro);
+      // console.log(`http://localhost:9000/${pro.image}`);
       return (
 
     <Grid key={pro.id}>
@@ -107,8 +112,9 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
     />
     <CardMedia
       className={classes.media}
-      // image={pro.img}
-      image= "img/product-1.png"
+      // image={pro.image}
+      image={`http://localhost:9000/${pro.image}`}
+      // image= "https://www.w3schools.com/css/img_mountains.jpg"
       title="Paella dish"
     />
     <CardContent>

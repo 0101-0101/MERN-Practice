@@ -5,10 +5,12 @@ import { USER_SIGNIN_REQUEST } from '../constants/action';
 import { Link } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
 
 
 
 function Login({login}) {
+  const history = useHistory();
   const { register ,handleSubmit , formState: { errors }} = useForm();
 
     // const dispatch = useDispatch()
@@ -24,8 +26,8 @@ function Login({login}) {
       const onSubmit = (data) => {  
         console.log(data);
         // login(data.username,data.password)
-        const x= login(data.username,data.password)
-        console.log("x",x);
+        const x= login(data.username,data.password,history)
+        // console.log("x",x);
        };
      
 
@@ -79,7 +81,7 @@ function Login({login}) {
 
 const mapDispatchToProps = (dispatch) => {
     return { 
-      login: (username,password) => dispatch( { type:USER_SIGNIN_REQUEST , payload: {username,password}  } )
+      login: (username,password, history) => dispatch( { type:USER_SIGNIN_REQUEST , payload: {username,password,history}  } )
     //   fetchdata: (product) => dispatch( { type:FETCH_DATA ,payload: { product }})
     }
   }

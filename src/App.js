@@ -15,9 +15,14 @@ import thunk from 'redux-thunk';
 import register from './component/register'
 import Login from './component/login'
 
+import FileUp from './component/AddProduct'
+
 
 
 const initialStore = {
+  userInfo: localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : null,
   product:[],
   cart: localStorage.getItem('Cart')
   ? JSON.parse(localStorage.getItem('Cart'))
@@ -44,6 +49,7 @@ function App() {
 
     <Switch>
       <Route path="/register" component={register}></Route>
+      <Route path="/add" component={FileUp}></Route>
       <Route path="/login" component={Login}></Route>
       <Route path='/cart' component={CartContainer}></Route>
 

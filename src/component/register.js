@@ -33,10 +33,10 @@ function Register({signin}) {
         <fieldset>
         <label>
             <p>Username</p>
-            <input {...register("username", { required: true, minLength: 4 })} />
+            <input {...register("username", { required: true, minLength: 3 })} />
             {errors.username && errors.username.type === "minLength" && (
               <p className="errorMsg">
-                username should be at-least 4 characters.
+                username should be at-least 3 characters.
               </p>
             )}
             {errors.username && errors.username.type === "required" && (

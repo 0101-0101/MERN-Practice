@@ -59,7 +59,8 @@ exports.signin = (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        accessToken: token
+        accessToken: token,
+        isAdmin: user.isAdmin
       });
     });
 };

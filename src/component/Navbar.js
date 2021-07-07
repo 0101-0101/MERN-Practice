@@ -20,6 +20,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from 'react-router-dom';
 import {connect, useDispatch} from "react-redux"
 import {LOGOUT} from '../constants/action'
+import { useSelector } from 'react-redux';
 
 
 
@@ -90,6 +91,8 @@ const useStyles = makeStyles((theme) => ({
 export function PrimarySearchAppBar({totalcart}) {
 
   const dispatch = useDispatch()
+  const userInfo = useSelector((state) => state.userInfo);
+
   var value = ""
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -239,10 +242,13 @@ export function PrimarySearchAppBar({totalcart}) {
           </div>
         );
       })} */}
+
+          <Link to='/add'>Add Product</Link>
           
           <div className={classes.sectionDesktop}>
           {/* <p>{value.username}</p> */}
-          {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>}
+          {userInfo ? <p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>}
+          {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
 
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -294,6 +300,8 @@ function mapStateToProps(store){
     total_quantity += item.quantity 
   
   })
+
+  
   // console.log("length",store.cart.length);
   return { totalcart:total_quantity}
 }

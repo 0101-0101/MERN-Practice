@@ -5,8 +5,8 @@ const User = mongoose.model(
   new mongoose.Schema({
     username: String,
     email: String,
-    password: String
-
+    password: String,
+    isAdmin: { type: Boolean, default: false, required: true }
   })
 );
 

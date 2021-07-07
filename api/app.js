@@ -3,8 +3,10 @@ const app = express()
 const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose")
-// const port = 3000
-const bodyParser = require('body-parser')
+app.use(logger("dev"));
+app.use(cors())
+app.use( express.urlencoded({ extended: true }));
+app.use(express.json());
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
@@ -13,23 +15,41 @@ mongoose.set("useCreateIndex", true);
 const config =  require("./config")
 const prodRouter = require("./routes/posts")
 
-app.use(logger("dev"));
-app.use(cors())
+
 const dbUrl = config.dbUrl 
 
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, '/public/')))
 
 const Product = require("./models/Post")
 
-const upload = require('multer')({ dest: path.join(__dirname, 'public/photos') })
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req,file,cb){
+      cb(null, 'public/photos')
+  },
+  // Upload image with Extension
+  filename: function (req, file, cb) {
+    cb(null, 'upload_at_' + Date.now() + path.extname(file.originalname))
+  }
+
+// const upload = require('multer')({ dest: 'public/photos' })
+});
+
+var upload = multer({storage: storage}); 
+
+// app.post('/upload',(req,res) => {
+//   console.log(req.body);
+// })
+
+
 app.post('/upload', upload.single('photo'), async function(req, res){
-  console.log(req.body,req.file.path);
+  console.log(req.body,req.file);
     const requestBody = {
-        title: req.body.name,
+        title: req.body.title,
         price : req.body.price,
-        info: req.body.description,
+        info: req.body.info,
         image: req.file.path
     }
     const request = new Product(requestBody)
@@ -43,10 +63,8 @@ app.post('/upload', upload.single('photo'), async function(req, res){
     }
 })
 
-app.use( express.urlencoded({ extended: true }));
-app.use(express.json());
 
-app.get("/image.png", (req, res) => {
+app.get("/image", (req, res) => {
   res.sendFile(path.join(__dirname, "/uploads/images/image.png"));
 });
 

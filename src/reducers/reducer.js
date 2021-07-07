@@ -5,31 +5,42 @@ import Axios from 'axios'
 
 
 function reducer(state,action) {
-
     if (action.type === USER_REGISTER){
       console.log(action.payload.username,action.payload.email,action.payload.password);
       const username = action.payload.username
       const email = action.payload.email
       const password = action.payload.password
     try {  
-      const data  =  Axios.post('http://localhost:9000/api/auth/signup/', { username , email , password });
+      const data  =  Axios.post('http://localhost:9000/api/auth/signup/', { username , email , password })
+      
+      .then(data =>{ localStorage.setItem('userInfo', JSON.stringify(data)); 
+          })
+
         // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
         // console.log(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        
     }catch (error) {
         console.log("Error:",error);
       }
     };
 
     if (action.type === USER_SIGNIN_REQUEST){
+      console.log( " action.payload.",action.payload);
       const username = action.payload.username
       const password = action.payload.password
+      const history = action.payload.history
     
     try {  
       const res  =  Axios.post('http://localhost:9000/api/auth/signin/', { username  , password })
-      .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data)); })
+      .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data));
+
+                    history.push('/')})
+
       .catch(error => {
-        return error.response.data
+        console.log("data",error.response.data);
+        return {  error: action.payload }
+
+
       })
         // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
         // console.log(res);
@@ -139,8 +150,11 @@ function reducer(state,action) {
         localStorage.setItem('Cart', JSON.stringify(updatedCart.cart));
 
 
+        // return{
+        //   ...state,
+        //   cart:state.cart.filter(cartItems => cartItems.id !== action.payload.id)
+        // }
         return{
-          ...state,
           cart:state.cart.filter(cartItems => cartItems.id !== action.payload.id)
         }
       }
