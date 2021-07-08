@@ -17,7 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {connect, useDispatch} from "react-redux"
 import {LOGOUT} from '../constants/action'
 import { useSelector } from 'react-redux';
@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function PrimarySearchAppBar({totalcart}) {
+  var history = useHistory();
 
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.userInfo);
@@ -119,6 +120,7 @@ export function PrimarySearchAppBar({totalcart}) {
   };
 
   const menuId = 'primary-search-account-menu';
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -130,7 +132,7 @@ export function PrimarySearchAppBar({totalcart}) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={ ()=> dispatch( { type:LOGOUT } ) } >logout</MenuItem>
+      {/* <MenuItem onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</MenuItem> */}
       {/* <Link to='/login'>Login</Link> */}
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
@@ -242,14 +244,11 @@ export function PrimarySearchAppBar({totalcart}) {
           </div>
         );
       })} */}
+          { userInfo && userInfo.isAdmin && <Link to='/add'>Add Product</Link>}
+          
 
-          <Link to='/add'>Add Product</Link>
           
           <div className={classes.sectionDesktop}>
-          {/* <p>{value.username}</p> */}
-          {userInfo ? <p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>}
-          {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
-
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -286,10 +285,17 @@ export function PrimarySearchAppBar({totalcart}) {
               <MoreIcon />
             </IconButton>
           </div>
+          
+          {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login'>Login</Link> }
+          {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
+
+
         </Toolbar>
+        
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      
     </div>
   );
 }

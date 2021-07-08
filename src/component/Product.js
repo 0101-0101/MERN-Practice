@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+
 import Grid from '@material-ui/core/Grid';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
@@ -89,7 +90,7 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
     {Product.map( (pro) =>{
       // <img  src={pro.image} alt="image"></img>
       // console.log("pro",pro);
-      // console.log(`http://localhost:9000/${pro.image}`);
+      console.log(`http://localhost:9000/${pro.image}`);
       return (
 
     <Grid key={pro.id}>

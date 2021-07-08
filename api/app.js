@@ -8,6 +8,7 @@ app.use(cors())
 app.use( express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
@@ -20,10 +21,23 @@ const dbUrl = config.dbUrl
 
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, '/public/')))
+// app.use('/static', express.static('public/'))
+// app.use('/public', express.static(path.join(__dirname, 'public')))
+
+
+// Look for Images inside public/photos/ directory so 
+// localhost:9000/my.jpg is displayed from public/photos/
+// app.use(express.static(path.join(__dirname, '/public/photos/')))  
+
+
+app.use(express.static(path.join(__dirname, '/')))  
+
+
 
 const Product = require("./models/Post")
 
+// multer handle multipart/form-data
+// Multer will not process any form which is not multipart
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req,file,cb){
@@ -45,7 +59,7 @@ var upload = multer({storage: storage});
 
 
 app.post('/upload', upload.single('photo'), async function(req, res){
-  console.log(req.body,req.file);
+  console.log(req.body,req.file.path);
     const requestBody = {
         title: req.body.title,
         price : req.body.price,

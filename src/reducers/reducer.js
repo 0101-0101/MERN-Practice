@@ -183,7 +183,11 @@ function reducer(state,action) {
 
       }
       if (action.type === LOGOUT){
-        return localStorage.clear();
+        const history = action.payload.history
+        console.log(history);
+        // return localStorage.clear();
+        localStorage.clear();
+        history.push('/login')
 
       }
 
