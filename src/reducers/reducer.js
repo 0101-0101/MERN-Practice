@@ -66,7 +66,7 @@ function reducer(state,action) {
         const updatedItemIndex = updatedCart.findIndex(item => item.id === action.payload.id);
         console.log(updatedItemIndex);
         if(updatedItemIndex < 0) {
-            updatedCart.push({id:product.id,title:product.title, quantity: 1,price: product.price, total: product.price });
+            updatedCart.push({productId:product.id,name:product.title, quantity: 1,price: product.price, total: product.price });
         }else {
           
         const updatedItem = { ...updatedCart[updatedItemIndex] };
@@ -188,6 +188,7 @@ function reducer(state,action) {
         // return localStorage.clear();
         localStorage.clear();
         history.push('/login')
+        // window.location.href = "/"
 
       }
 

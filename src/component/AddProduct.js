@@ -122,15 +122,29 @@ export default function FileUp(){
     <form onSubmit={handleSubmit(onSubmit)} >   
     <label> Title</label><br/>
   <input  {...register("title", { required: true })} name="title" /><br/>
+  {errors.title && errors.title.type === "required" && (
+            <p className="errorMsg">Title is required.</p>
+              )}
   <label >Price</label><br/>
   <input  {...register("price", { required: true})} name="price" /><br/>
+  {errors.price && errors.price.type === "required" && (
+            <p className="errorMsg">Price is required.</p>
+              )}
+  
   <label >Info</label><br/>
   <input {...register("info", { required: true})}  name="info" /><br/>
+  {errors.info && errors.info.type === "required" && (
+            <p className="errorMsg">Info is required.</p>
+              )}
+
     <label>
         File Name:
         <br/>
         <input type="file" {...register("file", { required: true})} name="photo" />
     </label>
+    {errors.file && errors.file.type === "required" && (
+            <p className="errorMsg">File is required.</p>
+              )}
         {/* <input type="submit" value="Submit" /> */}
         <br/>
         <button type="submit">Submit</button>

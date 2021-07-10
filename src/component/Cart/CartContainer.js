@@ -3,11 +3,27 @@ import CartItem from "./CartItem";
 import {connect } from "react-redux"
 import { GET_TOTAL } from '../../constants/action'
 import { useSelector,useDispatch } from "react-redux";
+import Axios from 'axios'
+import authHeader from "../../service/auth-header";
 
 const CartContainer = ({ dispatch }) => {
 
   const cart = useSelector(state => state.cart)
   const total = useSelector(state => state.cartTotal)
+
+
+  function CartAP(){
+    console.log("cart",JSON.parse(localStorage.getItem('Cart')));
+    try {  
+      // var = JSON.parse(localStorage.getItem('Cart'));
+      const data  =  Axios.post('http://localhost:9000/cart', JSON.parse(localStorage.getItem('Cart')), { headers: authHeader() })
+      
+      .then(data => console.log("Done")); 
+      
+    }catch (error) {
+        console.log("Error:",error);
+      }
+  }
 
 
 
@@ -45,6 +61,9 @@ const CartContainer = ({ dispatch }) => {
             total <span>${total}</span>
           </h4>
         </div>
+        <button className="amount-btn" onClick={ ()=> CartAP() } >
+          Checkout
+        </button>
         {/* <button className="btn clear-btn" onClick={() => dispatch({type:CLEAR_CART})}>clear cart</button> */}
       </footer>
     </section>

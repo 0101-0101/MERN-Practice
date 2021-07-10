@@ -92,7 +92,7 @@ export function PrimarySearchAppBar({totalcart}) {
   var history = useHistory();
 
   const dispatch = useDispatch()
-  const userInfo = useSelector((state) => state.userInfo);
+  var userInfo = useSelector((state) => state.userInfo);
 
   var value = ""
   const classes = useStyles();

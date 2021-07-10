@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, '/')))
 
 
 
-const Product = require("./models/Post")
+const Product = require("./models/Product")
 
 // multer handle multipart/form-data
 // Multer will not process any form which is not multipart
@@ -56,6 +56,8 @@ var upload = multer({storage: storage});
 // app.post('/upload',(req,res) => {
 //   console.log(req.body);
 // })
+
+
 
 
 app.post('/upload', upload.single('photo'), async function(req, res){
@@ -83,6 +85,8 @@ app.get("/image", (req, res) => {
 });
 
 require('./routes/auth.routes')(app);
+require('./routes/cart.routes')(app);
+
 
 // Authorization
 // require('./routes/user.routes')(app);
