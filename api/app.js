@@ -48,10 +48,15 @@ app.post("/search",function(req,res){
   const val = req.query.value
   console.log(val);
   return Product.find({
-     "title": { $regex: val },
-     "info" : { $regex: val }
+    //  "title": { $regex:".*" + val + ".*"},
+
+    // case-insensitive
+     "title": new RegExp(".*"+val+".*", "i"),
+
+     
+    //  "info" : { $regex: val }
     // "$text":{
-    //   "$search": val //"\" product\""
+      // "$search": val // "\" product\""
     // }
 })
   // return Product.find({'info':"test" })

@@ -143,6 +143,7 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
     </CardContent>
     <CardActions disableSpacing>
       <IconButton aria-label="add to favorites">
+        
         <FavoriteIcon />
       </IconButton>
       <IconButton onClick={ () => CartAdd(pro) }>
@@ -150,9 +151,9 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
       <ShoppingCartIcon  />
       </IconButton>
-      <IconButton aria-label="share">
+      {/* <IconButton aria-label="share">
         <ShareIcon />
-      </IconButton>
+      </IconButton> */}
 
     </CardActions>
 
