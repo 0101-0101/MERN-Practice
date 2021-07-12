@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
+import Axios from 'axios'
 
 
 
@@ -26,8 +27,21 @@ function Login({login}) {
       const onSubmit = (data) => {  
         console.log(data);
         // login(data.username,data.password)
-        const x= login(data.username,data.password,history)
-        // console.log("x",x);
+        // const x= login(data.username,data.password,history)
+        const username = data.username
+        const password = data.password
+        try {  
+          const res  =  Axios.post('http://localhost:9000/api/auth/signin/', { username  , password })
+          .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data));
+                        history.push('/')})
+          .catch(error => {
+            console.log("data",error.response.data);
+            return {  error: error }   
+          })
+        }catch (error) {
+            console.log("Error:",error);
+        }
+        
        };
      
 

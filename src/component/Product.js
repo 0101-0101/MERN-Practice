@@ -11,6 +11,7 @@ import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Alert from '@material-ui/lab/Alert';
 
 
 import Grid from '@material-ui/core/Grid';
@@ -19,6 +20,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { connect, useDispatch } from "react-redux"
 import { ADDTOCART,FETCH_DATA } from "../constants/action"
 import {link} from 'react-router-dom'
+import { useState } from 'react';
 
 // import {SingleProduct} from './SinglePro's
 // import {Product} from '../data'
@@ -51,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
   // console.log(Product);
+  const [showAlert, setShowAlert] = useState(null);
 
   const dispatch = useDispatch()
 
@@ -64,16 +67,18 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
     fetch('http://localhost:9000/product/list')
       .then(response => response.json())
       .then(product =>{
-        // console.log("Pro",product.data);
+        console.log("Pro",product.data);
         // fetchdata(product.data)
         // let x =product.data
         dispatch( { type:FETCH_DATA ,payload:  product.data })
         // console.log(product.data)
-      },(error) => {
+      }
+      ,(error) => {
         if (error) {
           console.log(error);
         }
-      });
+      })
+      .then( setShowAlert(true) )
       // )
   },[] )
 
@@ -85,7 +90,9 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
      
     <div>
-
+      {/* {showAlert &&  <Alert severity="success" color="info">
+  This is a success alert — check it out!
+</Alert>} */}
       <Grid container spacing={2}>
     {Product.map( (pro) =>{
       // <img  src={pro.image} alt="image"></img>

@@ -19,7 +19,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { Link, useHistory } from 'react-router-dom';
 import {connect, useDispatch} from "react-redux"
-import {LOGOUT} from '../constants/action'
+import {LOGOUT , FETCH_DATA } from '../constants/action'
 import { useSelector } from 'react-redux';
 
 
@@ -88,11 +88,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function PrimarySearchAppBar({totalcart}) {
+export function PrimarySearchAppBar({totalcart,userInfo}) {
+
+  function searchProduct(e){
+    e.preventDefault()
+    console.log(e.target.value);
+    const val = e.target.value
+    fetch (`http://localhost:9000/search?value=${val}`, {
+      method: 'POST',
+        })
+        .then (response => response.json ())
+        .then (response => {
+            console.log(response)
+            // setProducts(response)
+            dispatch( { type:FETCH_DATA,payload: response } ) 
+        })
+        .catch (error => {
+            console.error (error);
+        });
+  }
   var history = useHistory();
 
   const dispatch = useDispatch()
-  var userInfo = useSelector((state) => state.userInfo);
+  // var userInfo = useSelector((state) => state.userInfo);
 
   var value = ""
   const classes = useStyles();
@@ -201,14 +219,21 @@ export function PrimarySearchAppBar({totalcart}) {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
+            {/* <InputBase
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            />
+              
+            /> */}
+
+{/* <form className="product--SearchForm" onSubmit={searchProduct}> */}
+                            <input type="text" onChange={searchProduct} name="search" placeholder="Search..."/>
+                            {/* <input type="submit" value="search"/> */}
+                        {/* </form> */}
+
           </div>
           
 
@@ -285,7 +310,7 @@ export function PrimarySearchAppBar({totalcart}) {
               <MoreIcon />
             </IconButton>
           </div>
-          
+          {/* {userInfo && <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } ></button>} */}
           {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login'>Login</Link> }
           {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
 
@@ -309,7 +334,7 @@ function mapStateToProps(store){
 
   
   // console.log("length",store.cart.length);
-  return { totalcart:total_quantity}
+  return { totalcart:total_quantity , userInfo :store.userInfo}
 }
 
 export default connect(mapStateToProps)(PrimarySearchAppBar);

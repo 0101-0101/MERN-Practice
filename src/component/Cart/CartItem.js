@@ -2,12 +2,12 @@ import React from "react";
 import {connect} from 'react-redux';
 import {INCREASE,DECREASE,REMOVE} from '../../constants/action'
 
-const CartItem = ({ img, title, price, total,quantity,increase,remove,decrease }) => {
+const CartItem = ({ img, name, price, total,quantity,increase,remove,decrease }) => {
   return (
     <div className="cart-item" >
-      {/* <img src={img} alt={title} /> */}
+      {/* <img src={img} alt={name} /> */}
       <div style={{"display": "flex",padding:4}}>
-        <h4>{title}:</h4>
+        <h4>{name}:</h4>
         <h4 className="item-price">${price} * {quantity}  = {total} </h4>
         {/* remove button */}
         <button  onClick={() => remove() }>remove</button>
@@ -27,12 +27,12 @@ const CartItem = ({ img, title, price, total,quantity,increase,remove,decrease }
 };
 
 const mapDispatchToProps = (dispatch,ownProps) => {
-  const { id,quantity } = ownProps
-  // console.log("ownProps",ownProps)
+  const { productId,quantity } = ownProps
+  console.log("ownProps",ownProps)
   return { 
-    increase: () => dispatch( {type:INCREASE ,payload:{ id } } ),
-    remove: () => dispatch( {type:REMOVE ,payload:{ id } } ),
-    decrease: () => dispatch( {type:DECREASE ,payload:{ id,quantity} } )
+    increase: () => dispatch( {type:INCREASE ,payload:{ productId } } ),
+    remove: () => dispatch( {type:REMOVE ,payload:{ productId } } ),
+    decrease: () => dispatch( {type:DECREASE ,payload:{ productId,quantity} } )
   }
 }
 

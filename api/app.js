@@ -1,25 +1,69 @@
 const express = require('express')
 const app = express()
+
+
 const cors = require("cors");
+// Allowing cors for all origins
+app.use(cors()) 
+
+// app.use(cors({
+//   origin: 'https://www.section.io'
+// }));
+
+
+// HTTP request logger middleware for node.js
 const logger = require("morgan");
-const mongoose = require("mongoose")
 app.use(logger("dev"));
-app.use(cors())
+
+
+// middleware Parse HTML Form Data
 app.use( express.urlencoded({ extended: true }));
+// Parse Json Content
 app.use(express.json());
 
 
+var mongoose = require("mongoose")
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 const config =  require("./config")
-const prodRouter = require("./routes/posts")
-
-
 const dbUrl = config.dbUrl 
 
-const path = require("path");
+var options = {
+  keepAlive: 1,
+  connectTimeoutMS: 30000,
+  useUnifiedTopology: true,
+};
+
+
+mongoose.connect(dbUrl ,options,(err) => {
+  if(err){
+    console.log(err);
+  }
+})
+
+app.post("/search",function(req,res){
+  // console.log(req.query);
+  const val = req.query.value
+  console.log(val);
+  return Product.find({
+     "title": { $regex: val },
+     "info" : { $regex: val }
+    // "$text":{
+    //   "$search": val //"\" product\""
+    // }
+})
+  // return Product.find({'info':"test" })
+  .then((result)=>{
+    // console.log("result",result);
+      res.status(200).json(result)
+    } )
+  // })
+
+
+})
+
 
 // app.use('/static', express.static('public/'))
 // app.use('/public', express.static(path.join(__dirname, 'public')))
@@ -29,12 +73,10 @@ const path = require("path");
 // localhost:9000/my.jpg is displayed from public/photos/
 // app.use(express.static(path.join(__dirname, '/public/photos/')))  
 
-
+const path = require("path");
 app.use(express.static(path.join(__dirname, '/')))  
 
-
-
-const Product = require("./models/Product")
+const prodRouter = require("./routes/posts")
 
 // multer handle multipart/form-data
 // Multer will not process any form which is not multipart
@@ -47,21 +89,16 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, 'upload_at_' + Date.now() + path.extname(file.originalname))
   }
-
-// const upload = require('multer')({ dest: 'public/photos' })
 });
 
+// const upload = require('multer')({ dest: 'public/photos' })
 var upload = multer({storage: storage}); 
 
-// app.post('/upload',(req,res) => {
-//   console.log(req.body);
-// })
-
-
-
+const Product = require("./models/Product")
 
 app.post('/upload', upload.single('photo'), async function(req, res){
-  console.log(req.body,req.file.path);
+  // console.log(req.body); // form fields
+  // console.log(req.file); // form files
     const requestBody = {
         title: req.body.title,
         price : req.body.price,
@@ -80,35 +117,11 @@ app.post('/upload', upload.single('photo'), async function(req, res){
 })
 
 
-app.get("/image", (req, res) => {
-  res.sendFile(path.join(__dirname, "/uploads/images/image.png"));
-});
-
 require('./routes/auth.routes')(app);
 require('./routes/cart.routes')(app);
-
+app.use("/product",prodRouter)
 
 // Authorization
 // require('./routes/user.routes')(app);
-
-
-
-var options = {
-  keepAlive: 1,
-  connectTimeoutMS: 30000,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-mongoose.connect(dbUrl ,options,(err) => {
-  if(err){
-    console.log(err);
-  }
-})
-
-
-
-
-app.use("/product",prodRouter)
 
 module.exports = app

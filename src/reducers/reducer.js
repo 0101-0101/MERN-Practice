@@ -47,7 +47,8 @@ function reducer(state,action) {
         // localStorage.setItem('userInfo', JSON.stringify(val.data));
     }catch (error) {
         console.log("Error:",error);
-      }
+    }
+    
     }
 
   
@@ -58,12 +59,12 @@ function reducer(state,action) {
         return {...state,detailProduct:action.payload.product.dproduct}
     }
     if (action.type === ADDTOCART ){
-        // console.log("fdsg",action.payload.product.pro);
+        console.log("fdsg",action.payload);
         console.log("action.payload",action.payload);
         const product = action.payload
         const updatedCart = [...state.cart];
         console.log("updatedCart:",updatedCart);
-        const updatedItemIndex = updatedCart.findIndex(item => item.id === action.payload.id);
+        const updatedItemIndex = updatedCart.findIndex(item => item.productId === action.payload.id);
         console.log(updatedItemIndex);
         if(updatedItemIndex < 0) {
             updatedCart.push({productId:product.id,name:product.title, quantity: 1,price: product.price, total: product.price });
@@ -104,14 +105,14 @@ function reducer(state,action) {
         let tempCart = [];
         if (action.payload.quantity ===1 ){
           tempCart = state.cart.filter(
-            cartItem => cartItem.id !==action.payload.id
+            cartItem => cartItem.productId !==action.payload.productId
           )
         } 
           
         else{  
         
         tempCart = state.cart.map(cartItem => {
-          if(cartItem.id === action.payload.id){
+          if(cartItem.productId === action.payload.productId){
             cartItem.quantity = cartItem.quantity - 1
             cartItem.total = cartItem.quantity * cartItem.price
             cartItem = {...cartItem}
@@ -126,8 +127,9 @@ function reducer(state,action) {
 
       if (action.type === INCREASE){
         // return {...state, count: state.count + 1 }
+        console.log("INCREASE",action.payload);
         let tempCart = state.cart.map(cartItem => {
-          if (cartItem.id === action.payload.id ){
+          if (cartItem.productId === action.payload.productId ){
             cartItem.quantity = cartItem.quantity + 1
             cartItem.total = cartItem.quantity * cartItem.price
             cartItem = {...cartItem}
@@ -145,7 +147,7 @@ function reducer(state,action) {
         // console.log(action.payload.id);
         const updatedCart=  {
           ...state,
-          cart:state.cart.filter(cartItems => cartItems.id !== action.payload.id)
+          cart:state.cart.filter(cartItems => cartItems.productId !== action.payload.productId)
         }
         localStorage.setItem('Cart', JSON.stringify(updatedCart.cart));
 
@@ -155,7 +157,7 @@ function reducer(state,action) {
         //   cart:state.cart.filter(cartItems => cartItems.id !== action.payload.id)
         // }
         return{
-          cart:state.cart.filter(cartItems => cartItems.id !== action.payload.id)
+          cart:state.cart.filter(cartItems => cartItems.productId !== action.payload.productId)
         }
       }
   
@@ -177,7 +179,7 @@ function reducer(state,action) {
 
       if (action.type === FETCH_DATA){
         // console.log(action.payload.product);
-        console.log(action.payload);
+        console.log("Fetch Product",action.payload);
 
         return {...state,product:action.payload}
 
