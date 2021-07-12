@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 import { USER_REGISTER } from '../constants/action';
 
 import { useForm } from 'react-hook-form';
+import Axios from 'axios'
+
+import { useHistory } from "react-router-dom";
+
 
 
 function Register({signin}) {
-  const { register ,handleSubmit , formState: { errors }} = useForm();
+  const history = useHistory();
+
+  const { register ,handleSubmit , setError ,formState: { errors }} = useForm();
 
 
     // const dispatch = useDispatch()
@@ -21,14 +27,35 @@ function Register({signin}) {
 
       const onSubmit = (data) => {  
         console.log(data);
-        signin(data.username,data.email,data.password)
 
-        
-       };
+        const username = data.username
+        const email = data.email
+        const password = data.password
+        try {  
+          const data  =  Axios.post('http://localhost:9000/api/auth/signup/', { username , email , password })
+          .then(data =>{ 
+            // localStorage.setItem('userInfo', JSON.stringify(data)); 
+            // console.log(data);
+            history.push('/login')
+              })
+          .catch(error => {
+            console.log("data",error.response.data);
+
+            setError("username", {
+              type: "manual",
+              message: `${error.response.data.message}`,
+            });
+          })
+        }catch (error) {
+            // console.log("Error:",error);
+          } 
+          };
      
 
     return (
         <div style={{width:"500px",margin: "0 auto"}}>
+          <h1>Register Page</h1>
+        {errors.username && <p>{errors.username.message}</p>}
         <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
         <label>

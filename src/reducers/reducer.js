@@ -1,56 +1,18 @@
 import {DECREASE,INCREASE,REMOVE,CLEAR_CART,GET_TOTAL,GET_DETAIL,ADDTOCART,
   MODALSWITCHON,MODALSWITCHOFF,FETCH_DATA,USER_SIGNIN_REQUEST,USER_REGISTER,LOGOUT} from '../constants/action'
 
-import Axios from 'axios'
-
 
 function reducer(state,action) {
     if (action.type === USER_REGISTER){
       console.log(action.payload.username,action.payload.email,action.payload.password);
-      const username = action.payload.username
-      const email = action.payload.email
-      const password = action.payload.password
-    try {  
-      const data  =  Axios.post('http://localhost:9000/api/auth/signup/', { username , email , password })
-      
-      .then(data =>{ localStorage.setItem('userInfo', JSON.stringify(data)); 
-          })
-
-        // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-        // console.log(data);
-        
-    }catch (error) {
-        console.log("Error:",error);
-      }
     };
 
     if (action.type === USER_SIGNIN_REQUEST){
-      console.log( " action.payload.",action.payload);
-      const username = action.payload.username
-      const password = action.payload.password
-      const history = action.payload.history
-    
-    try {  
-      const res  =  Axios.post('http://localhost:9000/api/auth/signin/', { username  , password })
-      .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data));
-
-                    history.push('/')})
-
-      .catch(error => {
-        console.log("data",error.response.data);
-        return {  error: action.payload }
-
-
-      })
-        // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-        // console.log(res);
-        // localStorage.setItem('userInfo', JSON.stringify(val.data));
-    }catch (error) {
-        console.log("Error:",error);
-    }
+      
+      // console.log( " action.payload.",action.payload);
+      return {...state,userInfo: JSON.parse(localStorage.getItem('userInfo'))}
     
     }
-
   
     // console.log("From Reducer",state,action);
     if (action.type === GET_DETAIL ){
@@ -186,10 +148,15 @@ function reducer(state,action) {
       }
       if (action.type === LOGOUT){
         const history = action.payload.history
-        console.log(history);
-        // return localStorage.clear();
-        localStorage.clear();
-        history.push('/login')
+
+        // localStorage.clear();
+
+        localStorage.removeItem('userInfo')
+        return {...state,userInfo:null}
+
+        // console.log(history);
+        // localStorage.clear();
+        // history.push('/login')
         // window.location.href = "/"
 
       }

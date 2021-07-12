@@ -7,12 +7,15 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import Axios from 'axios'
+// import { useState } from 'react'
+
 
 
 
 function Login({login}) {
   const history = useHistory();
-  const { register ,handleSubmit , formState: { errors }} = useForm();
+  const { register ,handleSubmit , setError ,formState: { errors }} = useForm();
+  // const [error, seterror] = useState({message:""})
 
     // const dispatch = useDispatch()
 
@@ -32,10 +35,20 @@ function Login({login}) {
         const password = data.password
         try {  
           const res  =  Axios.post('http://localhost:9000/api/auth/signin/', { username  , password })
-          .then( res=>{ localStorage.setItem('userInfo', JSON.stringify(res.data));
-                        history.push('/')})
+          .then( res=>{ 
+                      localStorage.setItem('userInfo', JSON.stringify(res.data));
+                      login()
+                      history.push('/')
+                      })
           .catch(error => {
             console.log("data",error.response.data);
+
+            setError("username", {
+              type: "manual",
+              message: `${error.response.data.message}`,
+            });
+
+            // seterror[message:error.response.data]
             return {  error: error }   
           })
         }catch (error) {
@@ -47,7 +60,9 @@ function Login({login}) {
 
     return (
         <div style={{width:"500px",margin: "0 auto"}}>
+          <h1>Login Page</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.username && <p>{errors.username.message}</p>}
         <fieldset>
         <label>
             <p>Username</p>
@@ -61,6 +76,7 @@ function Login({login}) {
             {errors.username && errors.username.type === "required" && (
             <p className="errorMsg">UserName is required.</p>
               )}
+
             
           </label>
         </fieldset>

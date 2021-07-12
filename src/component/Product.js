@@ -28,9 +28,10 @@ import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 300,
+    maxWidth: 220,
     margin:5,
-    marginTop:30
+    marginTop:30,
+    marginLeft:40
     
   },
   media: {
@@ -59,8 +60,17 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
   const classes = useStyles();
 
+
   function fdta(product){
     dispatch( { type:FETCH_DATA ,payload:  product })
+  }
+  function CartAdd(pro){
+    console.log("product",pro);
+    setShowAlert(true)
+    setTimeout( () => {
+      setShowAlert(false)
+}, 2000);
+    dispatch( { type:ADDTOCART , payload: pro   } )
   }
 
   useEffect( ()=>{
@@ -78,7 +88,7 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
           console.log(error);
         }
       })
-      .then( setShowAlert(true) )
+
       // )
   },[] )
 
@@ -90,9 +100,9 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
      
     <div>
-      {/* {showAlert &&  <Alert severity="success" color="info">
-  This is a success alert — check it out!
-</Alert>} */}
+      {showAlert &&  <Alert severity="success" color="info">
+  Product is successfully added to cart — check it out!
+</Alert>}
       <Grid container spacing={2}>
     {Product.map( (pro) =>{
       // <img  src={pro.image} alt="image"></img>
@@ -135,7 +145,9 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
       <IconButton aria-label="add to favorites">
         <FavoriteIcon />
       </IconButton>
-      <IconButton onClick={ ()=> dispatch( { type:ADDTOCART , payload: pro   } ) }>
+      <IconButton onClick={ () => CartAdd(pro) }>
+      {/* <IconButton onClick={ ()=> dispatch( { type:ADDTOCART , payload: pro   } ) }> */}
+
       <ShoppingCartIcon  />
       </IconButton>
       <IconButton aria-label="share">

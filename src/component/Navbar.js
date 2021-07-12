@@ -213,7 +213,9 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link to='/product'>React</Link>
+
+            <Link to='/product' style={{"text-decoration": "none","color":"Red"}}>E-Commerce</Link>
+ 
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -269,20 +271,22 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
           </div>
         );
       })} */}
-          { userInfo && userInfo.isAdmin && <Link to='/add'>Add Product</Link>}
+          { userInfo && userInfo.isAdmin && <Link to='/add' style={{"text-decoration": "none","color":"Red"}}>Add Product</Link>}
           
 
           
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+
+            {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
+
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={totalcart} color="secondary">
                 {/* <NotificationsIcon /> */}
-                <Link to="/cart">
+                <Link to="/cart" style={{color:"red"}}>
                 <ShoppingCartIcon/>
         </Link>
                
@@ -300,6 +304,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
+
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -309,9 +314,10 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
             >
               <MoreIcon />
             </IconButton>
+            
           </div>
           {/* {userInfo && <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } ></button>} */}
-          {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login'>Login</Link> }
+          {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login' style={{"text-decoration": "none",color:"red"}}><h3>Login</h3></Link> }
           {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
 
 
@@ -319,7 +325,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
         
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMenu} */}
       
     </div>
   );
