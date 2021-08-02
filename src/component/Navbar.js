@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
-  },
+  },backgroundColor: theme.palette.background.paper,
   sectionMobile: {
     display: 'flex',
     [theme.breakpoints.up('md')]: {
@@ -192,7 +192,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Profile</p>product5
       </MenuItem>
 
       {/* <p> { JSON.parse(localStorage.getItem('userInfo').username) } </p> */}
@@ -214,13 +214,13 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
 
-            <Link to='/product' style={{"text-decoration": "none","color":"Red"}}>E-Commerce</Link>
+            <Link to='/product' style={{"text-decoration": "none","color":"white"}}>E-Commerce</Link>
  
           </Typography>
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
+            {/* <div className={classes.searchIcon}>
               <SearchIcon />
-            </div>
+            </div> */}
             {/* <InputBase
               placeholder="Search…"
               classes={{
@@ -271,7 +271,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
           </div>
         );
       })} */}
-          { userInfo && userInfo.isAdmin && <Link to='/add' style={{"text-decoration": "none","color":"Red"}}>Add Product</Link>}
+          { userInfo && userInfo.isAdmin && <Link to='/add' style={{"text-decoration": "none","color":"white"}}>Add Product</Link>}
           
 
           
@@ -286,13 +286,13 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={totalcart} color="secondary">
                 {/* <NotificationsIcon /> */}
-                <Link to="/cart" style={{color:"red"}}>
+                <Link to="/cart" style={{color:"white"}}>
                 <ShoppingCartIcon/>
         </Link>
                
               </Badge>
             </IconButton>
-            <IconButton
+            {/* <IconButton
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -301,7 +301,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
           </div>
           <div className={classes.sectionMobile}>
 
@@ -317,7 +317,7 @@ export function PrimarySearchAppBar({totalcart,userInfo}) {
             
           </div>
           {/* {userInfo && <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } ></button>} */}
-          {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login' style={{"text-decoration": "none",color:"red"}}><h3>Login</h3></Link> }
+          {userInfo ? <button onClick={ ()=> dispatch( { type:LOGOUT,payload: {history} } ) } >logout</button> : <Link to='/login' style={{"text-decoration": "none",color:"white"}}><h3>Login</h3></Link> }
           {/* {value.username?<p>Hello,{value.username}</p> : <Link to='/login'>Login</Link>} */}
 
 

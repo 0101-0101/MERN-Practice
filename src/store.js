@@ -14,6 +14,7 @@ const initialStore = {
     cartTotal: localStorage.getItem('Total')
     ? JSON.parse(localStorage.getItem('Total'))
     : 0,
+    error:''
   }
 
 const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

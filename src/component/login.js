@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import Axios from 'axios'
-// import { useState } from 'react'
 
 
 
@@ -15,7 +14,6 @@ import Axios from 'axios'
 function Login({login}) {
   const history = useHistory();
   const { register ,handleSubmit , setError ,formState: { errors }} = useForm();
-  // const [error, seterror] = useState({message:""})
 
     // const dispatch = useDispatch()
 
@@ -38,7 +36,7 @@ function Login({login}) {
           .then( res=>{ 
                       localStorage.setItem('userInfo', JSON.stringify(res.data));
                       login()
-                      history.push('/')
+                      history.push('/product')
                       })
           .catch(error => {
             console.log("data",error.response.data);

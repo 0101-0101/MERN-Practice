@@ -14,6 +14,7 @@ import Login from './component/login'
 
 import FileUp from './component/AddProduct'
 import PrivateRoute from './component/ProtectedRoute';
+import pubg from './component/new_feature'
 
 
 
@@ -21,7 +22,8 @@ function App() {
   // const auth = store.userInfo.isAdmin
 
   return (
-    <Router>  
+    <Router> 
+       <Route exact path='/pubg' component={pubg}></Route> 
     <Container>
     <PrimarySearchAppBar/>
     {/* <Product/> */}
@@ -31,9 +33,9 @@ function App() {
       <Route path="/register" component={register}></Route>
       <Route path="/login" component={Login}></Route>
       <Route path='/cart' component={CartContainer}></Route>
-
+     
       <PrivateRoute path="/add" component={FileUp}></PrivateRoute>
-      <Route path="/" component={Product}></Route>
+      <Route exact path="/product" component={Product}></Route>
     </Switch>
     </Router>  
     

@@ -12,6 +12,9 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Alert from '@material-ui/lab/Alert';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+
 
 
 import Grid from '@material-ui/core/Grid';
@@ -27,30 +30,21 @@ import { useState } from 'react';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 220,
-    margin:5,
-    marginTop:30,
-    marginLeft:40
-    
+
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   media: {
     height: 100,
     paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    // marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  }
+
 }));
 export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
   // console.log(Product);
@@ -99,48 +93,31 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
  {/* <SingleProduct product={Product} /> */}
 
      
-    <div>
-      {showAlert &&  <Alert severity="success" color="info">
-  Product is successfully added to cart — check it out!
-</Alert>}
-      <Grid container spacing={2}>
-    {Product.map( (pro) =>{
-      // <img  src={pro.image} alt="image"></img>
-      // console.log("pro",pro);
-      console.log(`http://localhost:9000/${pro.image}`);
-      return (
+<Container className={classes.cardGrid} maxWidth="lg">
+    {showAlert &&  <Alert severity="success" color="info">
+      Product is successfully added to cart — check it out!
+    </Alert>}
 
-    <Grid key={pro.id}>
-    <Card className={classes.root}>
+      <Grid container spacing={3} >
+      {Product.map( (pro) =>(
+    <Grid key={pro.id} xs={12} sm={6} md={3}>
+    <Card style={{margin:'10px'}}>
     <CardHeader
-      avatar={
-        <Avatar aria-label="recipe" className={classes.avatar}>
-          R
-        </Avatar>
-      }
-      action={
-        <IconButton aria-label="settings">
-          <MoreVertIcon />
-        </IconButton>
-      }
-      // title="Shrimp and Chorizo Paella"
-      title={pro.title}
+        title={`${pro.title}`}
+      />
+      <CardMedia
+        className={classes.media}
+        // image={pro.image} 
+        image={`http://localhost:9000/${pro.image}`}
+        // image= "https://www.w3schools.com/css/img_mountains.jpg"
+        title={`${pro.title}`} />
 
-      subheader="September fetchdata14, 2016"
-    />
-    <CardMedia
-      className={classes.media}
-      // image={pro.image}
-      image={`http://localhost:9000/${pro.image}`}
-      // image= "https://www.w3schools.com/css/img_mountains.jpg"
-      title="Paella dish"
-    />
-    <CardContent>
-      {/* <Typography variant="body2" color="textSecondary" component="p">
-        This impressive paella is a perfect party dish and a fun meal to cook together with your
-        guests. Add 1 cup of frozen peas along with the mussels, if you like.
-      </Typography> */}
-    </CardContent>
+        {/* <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {pro.title}
+          </Typography>
+        </CardContent> */}
+
     <CardActions disableSpacing>
       <IconButton aria-label="add to favorites">
         
@@ -159,14 +136,10 @@ export function RecipeReviewCard({ addtocart,fetchdata,Product}) {
 
   </Card>
   </Grid>
-      )
+      ))}
 
-    })
-  }
   </Grid>
-  
-
-   </div>
+  </Container>
      
 
 </div>

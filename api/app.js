@@ -126,6 +126,10 @@ require('./routes/auth.routes')(app);
 require('./routes/cart.routes')(app);
 app.use("/product",prodRouter)
 
+app.get('/api/config/paypal', (req,res) => 
+res.send(process.env.PAYPAL_CLIENT_ID)
+)
+
 // Authorization
 // require('./routes/user.routes')(app);
 
